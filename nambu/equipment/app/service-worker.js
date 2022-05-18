@@ -1,12 +1,39 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const { cacheableResponse, expiration, routing, strategies } = workbox;
+const { cacheableResponse, expiration, googleAnalytics, routing, strategies } = workbox;
+const { CacheableResponsePlugin } = cacheableResponse;
 const { ExpirationPlugin } = expiration;
 const { registerRoute } = routing;
 const { CacheFirst } = strategies;
 
-const CACHE = "equimentApp-v1";
+core.clientsClaim();
+core.skipWaiting();
+
+const CACHE = "equimentApp-v220519-1";
 const offlineFallbackPage = "index.html";
+
+
+// Cache Google Fonts
+registerRoute(
+    /^https:\/\/fonts\.gstatic\.com/,
+    new CacheFirst({
+        cacheName: 'google-fonts-webfonts',
+        plugins: [
+        new CacheableResponsePlugin({
+            statuses: [0, 200],
+        }),
+        new ExpirationPlugin({
+            maxAgeSeconds: 60 * 60 * 24 * 365, // 365 Days
+        }),
+        ],
+    })
+);
+
+// Cache JavaScript and CSS
+registerRoute(/\.(?:js|css)$/, new StaleWhileRevalidate());
+
+// Offline Google Analytics
+googleAnalytics.initialize();
 
 registerRoute(
     /\.(?:png|gif|jpg|jpeg|svg)$/,
@@ -20,6 +47,7 @@ registerRoute(
         ],
     })
 );
+
 
 self.addEventListener('install', (event) => {
     console.log('service Worker Install');
