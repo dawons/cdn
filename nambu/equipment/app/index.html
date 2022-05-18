@@ -4,13 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#3b82f6" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="shortcut icon" href="images/icons/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png" />
     <title>남부대 기자재관리</title>
-    <script type="module" crossorigin src="static/app.js"></script>
     <link rel="stylesheet" href="static/app.css">
 </head>
 <body class="py-ui">
-    <div id="app">
-        <h1>남부대 기자재관리222</h1>
-    </div>
+    <div id="app"></div>
+    <script type="module" crossorigin src="static/app.js"></script>
+    <script>
+        if( 'serviceWorker' in navigator){
+            navigator.serviceWorker.register('./service-worker.js').then( function() {
+                console.log('서비스 워커가 등록됨!');
+            });
+        }
+    </script>
 </body>
 </html>
