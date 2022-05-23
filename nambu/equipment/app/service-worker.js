@@ -9,7 +9,7 @@ const { CacheFirst } = strategies;
 core.clientsClaim();
 core.skipWaiting();
 
-const CACHE = "equimentApp-v220524-2";
+const CACHE = "equimentApp-v220524-3";
 const offlineFallbackPage = "index.html";
 
 
